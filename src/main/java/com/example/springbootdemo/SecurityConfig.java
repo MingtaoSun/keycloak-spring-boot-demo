@@ -63,8 +63,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 for (String role : token.getAccount().getRoles()) {
                     grantedAuthorities.add(new KeycloakRole(role));
                 }
-                throw new BadCredentialsException("Invalid username or password");
-                //return new KeycloakAuthenticationToken(token.getAccount(), token.isInteractive(), mapAuthorities(grantedAuthorities));
+                return new KeycloakAuthenticationToken(token.getAccount(), token.isInteractive(), mapAuthorities(grantedAuthorities));
             }
 
             private Collection<? extends GrantedAuthority> mapAuthorities(
