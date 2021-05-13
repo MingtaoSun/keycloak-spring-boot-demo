@@ -39,7 +39,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Autowired
     private KeycloakAuthenticationProvider keycloakAuthenticationProvider;
 
-    private static final String[] PUBLIC_PATHS = {"/", "/error", "k_logout2"};
+    private static final String[] PUBLIC_PATHS = {"/error"};
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -63,8 +63,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 for (String role : token.getAccount().getRoles()) {
                     grantedAuthorities.add(new KeycloakRole(role));
                 }
-                throw new BadCredentialsException("Invalid username or password");
-                //return new KeycloakAuthenticationToken(token.getAccount(), token.isInteractive(), mapAuthorities(grantedAuthorities));
+                return new KeycloakAuthenticationToken(token.getAccount(), token.isInteractive(), mapAuthorities(grantedAuthorities));
             }
 
             private Collection<? extends GrantedAuthority> mapAuthorities(
